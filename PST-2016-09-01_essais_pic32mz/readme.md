@@ -42,7 +42,102 @@ Générer les premiers fichier de configuration. Pour faire clignoter les LED on
 
 Compléter le code
 
-* Le fichier Source Files/app/main.c est normalement correct
+* Le fichier Source Files/app/main.c est normalement inchangé :
+
+~~~Cpp 
+/*******************************************************************************
+  MPLAB Harmony Project Main Source File
+
+  Company:
+    Microchip Technology Inc.
+  
+  File Name:
+    main.c
+
+  Summary:
+    This file contains the "main" function for an MPLAB Harmony project.
+
+  Description:
+    This file contains the "main" function for an MPLAB Harmony project.  The
+    "main" function calls the "SYS_Initialize" function to initialize the state 
+    machines of all MPLAB Harmony modules in the system and it calls the 
+    "SYS_Tasks" function from within a system-wide "super" loop to maintain 
+    their correct operation. These two functions are implemented in 
+    configuration-specific files (usually "system_init.c" and "system_tasks.c")
+    in a configuration-specific folder under the "src/system_config" folder 
+    within this project's top-level folder.  An MPLAB Harmony project may have
+    more than one configuration, each contained within it's own folder under
+    the "system_config" folder.
+ *******************************************************************************/
+
+// DOM-IGNORE-BEGIN
+/*******************************************************************************
+Copyright (c) 2013-2014 released Microchip Technology Inc.  All rights reserved.
+
+//Microchip licenses to you the right to use, modify, copy and distribute
+Software only when embedded on a Microchip microcontroller or digital signal
+controller that is integrated into your product or third party product
+(pursuant to the sublicense terms in the accompanying license agreement).
+
+You should refer to the license agreement accompanying this Software for
+additional information regarding your rights and obligations.
+
+SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF
+MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE.
+IN NO EVENT SHALL MICROCHIP OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER
+CONTRACT, NEGLIGENCE, STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR
+OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR INDIRECT DAMAGES OR EXPENSES
+INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE OR
+CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF
+SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
+(INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+ *******************************************************************************/
+// DOM-IGNORE-END
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Section: Included Files
+// *****************************************************************************
+// *****************************************************************************
+
+#include <stddef.h>                     // Defines NULL
+#include <stdbool.h>                    // Defines true
+#include <stdlib.h>                     // Defines EXIT_FAILURE
+#include "system/common/sys_module.h"   // SYS function prototypes
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Section: Main Entry Point
+// *****************************************************************************
+// *****************************************************************************
+
+int main ( void )
+{
+    /* Initialize all MPLAB Harmony modules, including application(s). */
+    SYS_Initialize ( NULL );
+
+
+    while ( true )
+    {
+        /* Maintain state machines of all polled MPLAB Harmony modules. */
+        SYS_Tasks ( );
+
+    }
+
+    /* Execution should not come here during normal operation */
+
+    return ( EXIT_FAILURE );
+}
+
+
+/*******************************************************************************
+ End of File
+*/
+~~~
+
 * Le fichier Source Files/app/app.c :
 
 ~~~Cpp 
@@ -257,7 +352,6 @@ void APP_Tasks ( void )
 /*******************************************************************************
  End of File
  */
-
 ~~~
 
 * Le fichier Header Files/app/app.h :
@@ -478,7 +572,6 @@ void APP_Tasks( void );
 /*******************************************************************************
  End of File
  */
-
 ~~~
 
 * Le fichier Header Files/app/system_config/default/system_config.h :
@@ -543,6 +636,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 /*  This section Includes other configuration headers necessary to completely
     define this configuration.
 */
+#include "bsp_config.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
@@ -566,16 +660,45 @@ extern "C" {
 // *****************************************************************************
 /* Clock System Service Configuration Options
 */
-#define SYS_CLK_FREQ                        48000000ul
-#define SYS_CLK_BUS_PERIPHERAL_1            48000000ul
-#define SYS_CLK_UPLL_BEFORE_DIV2_FREQ       192000000ul
-#define SYS_CLK_CONFIG_PRIMARY_XTAL         8000000ul
+#define SYS_CLK_FREQ                        200000000ul
+#define SYS_CLK_BUS_PERIPHERAL_1            100000000ul
+#define SYS_CLK_BUS_PERIPHERAL_2            100000000ul
+#define SYS_CLK_BUS_PERIPHERAL_3            100000000ul
+#define SYS_CLK_BUS_PERIPHERAL_4            100000000ul
+#define SYS_CLK_BUS_PERIPHERAL_5            100000000ul
+#define SYS_CLK_BUS_PERIPHERAL_7            200000000ul
+#define SYS_CLK_BUS_PERIPHERAL_8            100000000ul
+#define SYS_CLK_CONFIG_PRIMARY_XTAL         24000000ul
 #define SYS_CLK_CONFIG_SECONDARY_XTAL       0ul
    
 /*** Interrupt System Service Configuration ***/
 #define SYS_INT                     true
 
 /*** Ports System Service Configuration ***/
+
+#define SYS_PORT_B_ANSEL        0x8fdf
+#define SYS_PORT_B_TRIS         0xffdf
+#define SYS_PORT_B_LAT          0x0
+#define SYS_PORT_B_ODC          0x0
+#define SYS_PORT_B_CNPU         0x7000
+#define SYS_PORT_B_CNPD         0x0
+#define SYS_PORT_B_CNEN         0x0
+
+#define SYS_PORT_C_ANSEL        0xe01e
+#define SYS_PORT_C_TRIS         0xf01e
+#define SYS_PORT_C_LAT          0x0
+#define SYS_PORT_C_ODC          0x0
+#define SYS_PORT_C_CNPU         0x0
+#define SYS_PORT_C_CNPD         0x0
+#define SYS_PORT_C_CNEN         0x0
+
+#define SYS_PORT_H_ANSEL        0x70
+#define SYS_PORT_H_TRIS         0xfff8
+#define SYS_PORT_H_LAT          0x0
+#define SYS_PORT_H_ODC          0x0
+#define SYS_PORT_H_CNPU         0x0
+#define SYS_PORT_H_CNPD         0x0
+#define SYS_PORT_H_CNEN         0x0
 
 
 // *****************************************************************************
@@ -608,6 +731,12 @@ extern "C" {
 // *****************************************************************************
 // *****************************************************************************
 
+// *****************************************************************************
+/* BSP Configuration Options
+*/
+#define BSP_OSC_FREQUENCY 24000000
+
+
 
 
 // *****************************************************************************
@@ -619,8 +748,8 @@ extern "C" {
 /*** Application Instance 0 Configuration ***/
 #define APP_TMR_DRV_INDEX                   0
 #define APP_TMR_ALARM_PERIOD                0xF424
-#define APP_TMR_ALARM_COUNT_MAX             40
-#define APP_TMR_ALARM_COUNT_LED_ON          20
+#define APP_TMR_ALARM_COUNT_MAX             20
+#define APP_TMR_ALARM_COUNT_LED_ON          5
 #define APP_LED_PORT                        PORT_CHANNEL_H
 #define APP_LED_PIN                         PORTS_BIT_POS_0
 
